@@ -10,7 +10,7 @@ async function connectDB() {
             const connection = mongoose.connection;
 
             connection.on('connected', () => {
-                console.log("Connect to DB");
+      //        console.log("Connect to DB");
                 isConnected = true; 
             });
 

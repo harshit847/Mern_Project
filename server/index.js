@@ -5,8 +5,9 @@ require('dotenv').config()
 const connectDB = require('./config/connectdb')
 const router = require('./routes/index')
 const cookiesParser = require('cookie-parser')
+const { app, server } = require('./socket/index')
 
-const app = express()
+//const app = express()
 app.use(cors({
     origin : process.env.FRONTEND_URL,
     credentials : true
@@ -27,7 +28,7 @@ app.get('/',(request,response)=>{
 app.use('/api',router)
 
 connectDB().then(()=>{
-    app.listen(PORT,()=>{
+    server.listen(PORT,()=>{
         console.log("server running at " + PORT)
     })
 })

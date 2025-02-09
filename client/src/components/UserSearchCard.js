@@ -10,6 +10,7 @@ const UserSearchCard = ({user, onClose}) => {
         width={50}
         height={50}
         name={user?.name}
+        userId={user?._id}
         />
       </div>
       <div>
