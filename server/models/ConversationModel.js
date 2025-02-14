@@ -3,20 +3,27 @@ const mongoose = require('mongoose')
 const messageSchema = new mongoose.Schema({
     text : {
         type : String,
-        default : ''
+        default : ""
     },
     imageUrl : {
         type : String,
-        default : ''
+        default : ""
     },
     videoUrl : {
         type : String,
-        default : ''
+        default : ""
     },
     seen : {
         type : Boolean,
         default : false
+    },
+    msgByUserId : {
+        type : mongoose.Schema.ObjectId,
+        required : true,
+        ref : 'User'
     }
+},{
+    timestamps : true
 })
 
 const conversationSchema = new mongoose.Schema({
@@ -33,7 +40,7 @@ const conversationSchema = new mongoose.Schema({
     messages : [
         {
             type : mongoose.Schema.ObjectId,
-            ref : 'Message'            
+            ref : 'Message'
         }
     ]
 },{
@@ -44,6 +51,6 @@ const MessageModel = mongoose.model('Message',messageSchema)
 const ConversationModel = mongoose.model('Conversation',conversationSchema)
 
 module.exports = {
-    ConversationModel,
-    MessageModel
+    MessageModel,
+    ConversationModel
 }
