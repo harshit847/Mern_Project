@@ -28,20 +28,20 @@ const RegisterPage = () => {
 
   }
 
-  const handleUploadPhoto = async (e)=>{
-    const file = e.target.files[0]
+  const handleUploadPhoto = async (e) => {
+    const file = e.target.files[0];
 
-    const uploadPhoto = await uploadFile(file)
+    // ✅ Cloudinary par upload karo aur secure URL le lo
+    const uploadedImageUrl = await uploadFile(file);  
 
-    setUploadPhoto(file)
+    setUploadPhoto(file); // ✅ Yeh sirf UI ke liye hai
 
-    setData((preve)=>{
-      return{
-        ...preve,
-        profile_pic : uploadPhoto?.url
-      }
-    })
-  }
+    setData((prev) => ({
+        ...prev,
+        profile_pic: uploadedImageUrl, // ✅ Ab yeh sahi URL store karega
+    }));
+};
+
   const handleClearUploadPhoto = (e) =>{
     e.stopPropagation();
     e.preventDefault()
