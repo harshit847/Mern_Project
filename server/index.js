@@ -11,7 +11,8 @@ const { app, server } = require('./socket/index')
 app.use(cors({
     origin: ["http://localhost:3000", "https://mern-project-pj2y.vercel.app"], // ✅ Allows local & deployed frontend
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true
+    credentials: true,
+    transports: ["websocket", "polling"],
 }));
 
 app.use(express.json())
