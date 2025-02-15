@@ -49,11 +49,20 @@ const CheckPasswordPage = () => {
 
     try {  
         const response = await axios.post(URL, {
-            userId: location.state._id, // ✅ Ensure this is valid
+            userId: location.state._id,
             password: data.password
         }, {
             withCredentials: true
         });
+
+        console.log("Response:", response.data); // Debugging response
+
+        if (response.data.logout) {
+            toast.error("Session expired! Please log in again.");
+            localStorage.removeItem('token');
+            navigate('/login');
+            return;
+        }
 
         if (response.data.success) {
             dispatch(setToken(response.data.token));
@@ -68,6 +77,7 @@ const CheckPasswordPage = () => {
         toast.error(error?.response?.data?.message || "Something went wrong!");
     }
 };
+
 
 
 
