@@ -36,38 +36,39 @@ const CheckPasswordPage = () => {
     })
   }
 
-  const handleSubmit = async(e)=>{
-    e.preventDefault()
-    e.stopPropagation()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-    const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`
+    const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`;
+
+    if (!location?.state?._id) {
+        toast.error("User ID not found! Please try again.");
+        return;
+    }
 
     try {  
-    
-        const response = await axios({
-          method :'post',
-          url : URL,
-          data : {
-            userId : location?.state?._id,
-            password : data.password
-          },
-          withCredentials : true
-        })
+        const response = await axios.post(URL, {
+            userId: location.state._id, // ✅ Ensure this is valid
+            password: data.password
+        }, {
+            withCredentials: true
+        });
 
-        toast.success(response.data.message)
+        if (response.data.success) {
+            dispatch(setToken(response.data.token));
+            localStorage.setItem('token', response.data.token);
 
-        if(response.data.success){
-          dispatch(setToken(response?.data?.token))
-          localStorage.setItem('token',response?.data?.token)
-            setData({
-              password : "",
-            });
+            toast.success(response.data.message);
+            setData({ password: "" });
             navigate('/');
         }
     } catch (error) {
-        toast.error(error?.response?.data?.message)
+        console.error("API Error:", error?.response?.data); // Debugging
+        toast.error(error?.response?.data?.message || "Something went wrong!");
     }
-  }
+};
+
 
 
   return (

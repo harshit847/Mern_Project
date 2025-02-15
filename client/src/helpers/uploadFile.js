@@ -11,7 +11,7 @@ const uploadFile = async (file) => {
     const responseData = await response.json();
 
     // ✅ Return only the secure URL to avoid mixed content issues
-    return responseData.secure_url || responseData.url;
+    return responseData.secure_url || responseData.url.replace("http://", "https://");
 };
 
 export default uploadFile;
