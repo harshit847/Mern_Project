@@ -23,7 +23,14 @@ const onlineUser = new Set()
 io.on('connection', async (socket) => {
     console.log("✅ User Connected:", socket.id)
 
-    const token = socket.handshake.auth.token
+    const token = socket.handshake.auth?.token; // Ensure token is passed
+    if (!token) {
+        console.log("❌ No Token Provided, Disconnecting:", socket.id);
+        socket.disconnect();
+        return;
+    }
+
+
     const user = await getUserDetailsFromToken(token)
 
     if (!user) {
