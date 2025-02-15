@@ -40,11 +40,12 @@ const Home = () => {
 
   /***socket connection */
   useEffect(()=>{
-    const socketConnection = io(process.env.REACT_APP_BACKEND_URL,{
+    const socketConnection = io(process.env.REACT_APP_WS_URL,{
       auth : {
         token : localStorage.getItem('token')
       },
-    })
+      transports: ["websocket", "polling"],
+    });
 
     socketConnection.on('onlineUser',(data)=>{
       console.log(data)
