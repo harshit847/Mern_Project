@@ -9,9 +9,10 @@ const { app, server } = require('./socket/index')
 
 //const app = express()
 app.use(cors({
-    origin : process.env.FRONTEND_URL,
-    credentials : true
-}))
+    origin: ["http://localhost:3000", "https://mern-project-pj2y.vercel.app"], // ✅ Allows local & deployed frontend
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+}));
 
 app.use(express.json())
 app.use(cookiesParser())
