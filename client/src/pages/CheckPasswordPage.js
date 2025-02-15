@@ -97,6 +97,7 @@ const CheckPasswordPage = () => {
                   value={data.password}
                   onChange={handleOnChange}
                   required
+                  autoComplete="new-password"
                 />
               </div>
 

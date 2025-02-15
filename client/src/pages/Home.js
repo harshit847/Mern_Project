@@ -14,25 +14,32 @@ const Home = () => {
   const location = useLocation()
 
   console.log('user',user)
-  const fetchUserDetails = async()=>{
+  const fetchUserDetails = async () => {
     try {
-        const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`
-        const response = await axios({
-          url : URL,
-          withCredentials : true
-        })
-
-        dispatch(setUser(response.data.data))
-
-        if(response.data.data.logout){
-            dispatch(logout())
-            navigate("/email")
-        }
-        console.log("current user Details",response)
+      const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`;
+      const token = localStorage.getItem("token"); // Ensure token is included
+  
+      const response = await axios.get(URL, {
+        withCredentials: true,
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "", // Ensure Authorization header
+          "Content-Type": "application/json",
+        },
+      });
+  
+      dispatch(setUser(response.data.data));
+  
+      if (response.data.data.logout) {
+        dispatch(logout());
+        navigate("/email");
+      }
+  
+      console.log("Current user details:", response);
     } catch (error) {
-        console.log("error",error)
+      console.error("Fetch error:", error.response?.data || error.message);
     }
-  }
+  };
+  
 
   useEffect(()=>{
     fetchUserDetails()
