@@ -15,7 +15,7 @@ async function updateUserDetils(request,response){
             profile_pic
         })
 
-        const userInformation = await UserModel.findOne(user._id)
+        const userInformation = await UserModel.findOne({ _id: user._id })
 
         return response.status(200).json({
             message : "user updated successfully",
