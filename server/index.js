@@ -9,7 +9,7 @@ const { app, server } = require('./socket/index')
 
 //const app = express()
 app.use(cors({
-    origin: ["http://localhost:3000", "https://mern-project-pj2y-git-main-harshit-rais-projects-524f8638.vercel.app"], // ✅ Allows local & deployed frontend
+    origin: ["https://mern-project-pj2y-git-main-harshit-rais-projects-524f8638.vercel.app"], // ✅ Allows local & deployed frontend
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],

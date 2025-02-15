@@ -34,7 +34,7 @@ const RegisterPage = () => {
     // ✅ Cloudinary par upload karo aur secure URL le lo
     const uploadedImageUrl = await uploadFile(file);  
 
-    setUploadPhoto(file); // ✅ Yeh sirf UI ke liye hai
+    setUploadPhoto(uploadedImageUrl); // ✅ Yeh sirf UI ke liye hai
 
     setData((prev) => ({
         ...prev,
