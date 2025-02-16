@@ -34,9 +34,14 @@ const CheckPasswordPage = () => {
 
     const URL = `${process.env.REACT_APP_BACKEND_URL}/api/password`;
 
+    // ✅ Debugging ke liye pehle logs print karo
+    console.log("🔹 API Request URL:", URL);
+    console.log("🔹 User ID in state:", location?.state?._id);
+    console.log("🔹 Request Payload:", { userId: data.userId, password: data.password });
+
     if (!data.userId) {
-      toast.error("User ID not found! Please try again.");
-      return;
+        toast.error("User ID not found! Please try again.");
+        return;
     }
 
     try {  
@@ -47,35 +52,34 @@ const CheckPasswordPage = () => {
             withCredentials: true
         });
 
-        console.log("API Response:", response.data);
+        console.log("✅ API Response:", response.data);
 
         if (response.data.logout) {
             toast.error("Session expired! Please log in again.");
             localStorage.removeItem('token');
-            localStorage.removeItem('user'); // ✅ Clear user data
-            dispatch(setUser(null)); // ✅ Clear user in Redux
+            localStorage.removeItem('user');
+            dispatch(setUser(null));
             navigate('/login');
             return;
         }
 
         if (response.data.success) {
-            console.log("User from API:", response.data.user);
-
             dispatch(setToken(response.data.token));
-            dispatch(setUser(response.data.user)); // ✅ Update Redux
+            dispatch(setUser(response.data.user));
 
             localStorage.setItem('token', response.data.token);
-            localStorage.setItem('user', JSON.stringify(response.data.user)); // ✅ Store user in localStorage
+            localStorage.setItem('user', JSON.stringify(response.data.user));
 
             toast.success(response.data.message);
             setData({ password: "" });
             navigate('/');
         }
     } catch (error) {
-        console.error("API Error:", error?.response?.data);
+        console.error("❌ API Error Response:", error?.response?.data);
         toast.error(error?.response?.data?.message || "Something went wrong!");
     }
-  };
+};
+
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-start pt-12 bg-gray-50">
