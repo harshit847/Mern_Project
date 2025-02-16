@@ -74,10 +74,16 @@ const CheckPasswordPage = () => {
             setData({ password: "" });
             navigate('/');
         }
-    } catch (error) {
-        console.error("❌ API Error Response:", error?.response?.data);
-        toast.error(error?.response?.data?.message || "Something went wrong!");
-    }
+    } 
+    catch (error) {
+      console.error("❌ API Error:", error);  // Full error object
+      console.error("❌ API Error Response:", error.response?.data);
+      console.error("❌ API Error Status:", error.response?.status);
+      console.error("❌ API Error Headers:", error.response?.headers);
+  
+      toast.error(error?.response?.data?.message || "Something went wrong!");
+  }
+  
 };
 
 
