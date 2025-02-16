@@ -103,7 +103,7 @@ const CheckPasswordPage = () => {
             />
           </div>
 
-          <button
+          <button type='submit'
             className='bg-primary text-lg  px-4 py-1 hover:bg-secondary rounded mt-2 font-bold text-white leading-relaxed tracking-wide'
           >
             Login
