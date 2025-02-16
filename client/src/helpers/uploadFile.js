@@ -1,16 +1,18 @@
-const uploadImage = async (file) => {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "your_preset_name"); // Cloudinary ka preset
+const url = `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/auto/upload`
 
-    const response = await fetch(
-        "https://api.cloudinary.com/v1_1/drxlmu23f/image/upload",
-        {
-            method: "POST",
-            body: formData,
-        }
-    );
+const uploadFile = async(file)=>{
+    const formData = new FormData()
+    formData.append('file',file)
+    formData.append("upload_preset","chat-app-file")
 
-    const data = await response.json();
-    return data.secure_url; // ✅ HTTPS wala URL
-};
+    const response = await fetch(url,{
+        method : 'post',
+        body : formData
+    })
+    const responseData = await response.json()
+
+
+    return responseData
+}
+
+export default uploadFile

@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
-//import { IoClose } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
-//import uploadFile from '../helpers/uploadFile';
+import uploadFile from '../helpers/uploadFile';
 import axios from 'axios'
 import toast from 'react-hot-toast';
 import { PiUserCircle } from "react-icons/pi";
-
 
 const CheckEmailPage = () => {
   const [data,setData] = useState({
