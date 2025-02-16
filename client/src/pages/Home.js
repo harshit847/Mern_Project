@@ -17,29 +17,27 @@ const Home = () => {
 
   const fetchUserDetails = async () => {
     try {
-      const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`;
-      const token = localStorage.getItem("token");
+        const URL = `${process.env.REACT_APP_BACKEND_URL}/api/user-details`;
+        const token = localStorage.getItem("token");
 
-      const response = await axios.get(URL, {
-        withCredentials: true,
-        headers: {
-          Authorization: token ? `Bearer ${token}` : "",
-          "Content-Type": "application/json",
-        },
-      });
+        console.log("🛠 Fetching user details with token:", token);  // 👈 Yeh check karo
 
-      console.log("API Full Response:", response.data);
-      dispatch(setUser(response.data));
+        const response = await axios.get(URL, {
+            withCredentials: true,
+            headers: {
+                Authorization: token ? `Bearer ${token}` : "",
+                "Content-Type": "application/json",
+            },
+        });
 
-      if (response.data.data.logout) {
-        dispatch(logout());
-        navigate("/email");
-      }
+        console.log("✅ API Response:", response.data);
+        dispatch(setUser(response.data));
 
     } catch (error) {
-      console.error("Fetch error:", error.response?.data || error.message);
+        console.error("❌ Fetch error:", error.response?.data || error.message);
     }
-  };
+};
+
 
   useEffect(() => {
     fetchUserDetails();
