@@ -45,44 +45,50 @@ const EditUserDetails = ({ onClose, user }) => {
     uploadPhotoRef.current.click()
   }
 
-  const handleUploadPhoto = async(e)=>{
-    const file = e.target.files[0]
-
-    const uploadPhoto = await uploadFile(file)
-
-
-
-    setData((preve)=>{
-      return{
-        ...preve,
-        profile_pic : uploadPhoto?.url
-      }
-    })
-  }
-
-  const handleSubmit = async(e) => {
-    e.preventDefault(); 
+  const handleUploadPhoto = async (e) => {
+    const file = e.target.files[0];
+    const uploadPhoto = await uploadFile(file);
+  
+    setData((prev) => ({
+      ...prev,
+      profile_pic: uploadPhoto?.url,
+    }));
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     e.stopPropagation();
+  
+    // Create a new object with only serializable properties.
+    const cleanData = {
+      ...data,
+    };
+  
+    // Remove any non-serializable properties like `socketConnection` or `io`
+    delete cleanData.socketConnection;  // Adjust according to the name of the property causing the circular reference.
+    
     try {
-        const URL = `${process.env.REACT_APP_BACKEND_URL}/api/update-user`
-
-        const response = await axios({
-            method : 'post',
-            url : URL,
-            data : data,
-            withCredentials : true,
-        })
-
-        toast.success(response?.data?.message)
-        if(response.data.success){
-            dispatch(setUser(response.data.data))
-            onClose()
-        }
+      const URL = `${process.env.REACT_APP_BACKEND_URL}/api/update-user`;
+      const response = await axios({
+        method: 'post',
+        url: URL,
+        data: cleanData,  // Send clean data
+        withCredentials: true,
+      });
+  
+      toast.success(response?.data?.message);
+  
+      if (response.data.success) {
+        dispatch(setUser(response.data.data));
+        onClose();
+      }
     } catch (error) {
-        toast.error()
-        
+      console.error('Error updating user:', error);
+      toast.error('Failed to update user');
     }
-  }
+  };
+  
+  
   return (
     <div className='fixed top-0 bottom-0 left-0 right-0 bg-gray-700 bg-opacity-40 flex justify-center items-center z-10'>
       <div className='bg-white p-4 py-6 m-1 rounded w-full max-w-sm'>

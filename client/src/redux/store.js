@@ -5,4 +5,8 @@ export const store = configureStore({
   reducer: {
     user : useReducer
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+        serializableCheck: false, // Allow non-serializable data
+    }),
 })
