@@ -47,6 +47,7 @@ export const connectSocket = () => (dispatch, getState) => {
 
   const socket = io(process.env.REACT_APP_BACKEND_URL, {  // Change to your backend URL
       query: { token },
+      transports: ["websocket", "polling"],
   });
 
   dispatch(setSocketConnection(socket));
@@ -58,6 +59,9 @@ export const connectSocket = () => (dispatch, getState) => {
   socket.on("disconnect", () => {
       console.log("Socket disconnected");
   });
+  socket.on("connect_error", (err) => {
+    console.error("⚠ WebSocket Connection Error:", err);
+});
 };
 
 // Action creators are generated for each case reducer function

@@ -8,6 +8,7 @@ import MessagePage from '../components/MessagePage';
 import AuthLayouts from '../layout';
 import ForgotPassword from '../pages/ForgotPassword';
 
+
 const router = createBrowserRouter([
 {
     path : "/",
