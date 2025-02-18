@@ -45,7 +45,7 @@ export const connectSocket = () => (dispatch, getState) => {
   const { token } = getState().user; // Get token from Redux state
   if (!token) return;
 
-  const socket = io("http://localhost:8080", {  // Change to your backend URL
+  const socket = io(process.env.REACT_APP_BACKEND_URL, {  // Change to your backend URL
       query: { token },
   });
 
