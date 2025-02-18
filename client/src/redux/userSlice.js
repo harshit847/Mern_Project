@@ -47,7 +47,7 @@ export const connectSocket = () => (dispatch, getState) => {
 
   const socket = io(process.env.REACT_APP_BACKEND_URL, {  // Change to your backend URL
       query: { token },
-      transports: ["websocket", "polling"],
+      transports: ["websocket"],
   });
 
   dispatch(setSocketConnection(socket));
