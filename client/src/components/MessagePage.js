@@ -13,6 +13,7 @@ import Loading from './Loading';
 import backgroundImage from '../assets/wallapaper.jpeg'
 import { IoMdSend } from "react-icons/io";
 import moment from 'moment'
+import axios from 'axios';
 
 const MessagePage = () => {
   const params = useParams()
@@ -33,6 +34,7 @@ const MessagePage = () => {
   })
   const [loading, setLoading] = useState(false)
   const [allMessage, setAllMessage] = useState([])
+  const [showOptions,setShowOptions] = useState(false);
   const currentMessage = useRef(null)
 
   useEffect(() => {
@@ -40,6 +42,17 @@ const MessagePage = () => {
       currentMessage.current.scrollIntoView({ behavior: 'smooth', block: 'end' })
     }
   }, [allMessage])
+
+  const handleDeleteConversation = async () => {
+    try {
+      await axios.delete(`/api/messages/${params.userId}`);
+      setAllMessage([]);
+      setShowOptions(false);
+    } catch (error) {
+      console.error("Error deleting conversation:", error);
+    }
+  };
+
 
   const handleUploadImageVideoOpen = () => {
     setOpenImageVideoUpload(preve => !preve)
@@ -155,7 +168,7 @@ const MessagePage = () => {
           </Link>
           <div>
             <Avatar
-              width={50}
+              width={40}
               height={50}
               imageUrl={dataUser?.profile_pic}
               name={dataUser?.name}
