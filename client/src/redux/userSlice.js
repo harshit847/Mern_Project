@@ -47,7 +47,8 @@ export const connectSocket = () => (dispatch, getState) => {
 
   const socket = io(process.env.REACT_APP_BACKEND_URL, {  // Change to your backend URL
       query: { token },
-      transports: ["websocket"],
+      transports: ["websocket", "polling"],
+      withCredentials: true
   });
 
   dispatch(setSocketConnection(socket));
@@ -57,6 +58,9 @@ export const connectSocket = () => (dispatch, getState) => {
   });
 
   socket.on("disconnect", () => {
+    if (socket.user && socket.user._id) {
+      onlineUser.delete(socket.user._id.toString());
+  }
       console.log("Socket disconnected");
   });
   socket.on("connect_error", (err) => {

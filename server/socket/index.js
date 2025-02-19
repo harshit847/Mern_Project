@@ -12,10 +12,13 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server, {
     cors: {
-        origin: process.env.FRONTEND_URL,
-        credentials: true
-    }
-})
+        origin: process.env.FRONTEND_URL, // Ensure this is set in your .env
+        methods: ["GET", "POST"],
+        credentials: true 
+    },
+    transports: ["websocket", "polling"] // Add this line
+});
+
 
 /***
  * socket running at http://localhost:8080/
@@ -29,10 +32,31 @@ io.on('connection', async (socket) => {
     console.log("📌 Socket handshake data:", socket.handshake.auth);
     console.log("connect User ", socket.id)
 
-    const token = socket.handshake.auth.token
+    const token = socket.handshake.auth.token || socket.handshake.query.token;
 
+    if (!token) {
+        console.log("🚨 No token provided! Disconnecting...");
+        return socket.disconnect();
+    }
+    
     //current user details 
-    const user = await getUserDetailsFromToken(token)
+    try {
+        const user = await getUserDetailsFromToken(token);
+    
+        if (!user || !user._id) {
+            console.error("🚨 Invalid token. Disconnecting user:", socket.id);
+            socket.disconnect();
+            return;
+        }
+    
+        console.log("User details from token:", user);
+        socket.user = user;  // Store user details in the socket object
+    } catch (error) {
+        console.error("🚨 Token validation failed:", error.message);
+        socket.disconnect();
+        return;
+    }
+    
 
     if (!user || !user._id) {
         console.error("User details could not be retrieved. Possible invalid token.");
