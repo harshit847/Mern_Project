@@ -46,7 +46,7 @@ export const connectSocket = () => (dispatch, getState) => {
   if (!token) return;
 
   const socket = io(process.env.REACT_APP_BACKEND_URL, {  // Change to your backend URL
-      query: { token },
+      query: { token: localStorage.getItem("token") },
       transports: ["websocket", "polling"],
       withCredentials: true
   });
