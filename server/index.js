@@ -6,9 +6,11 @@ const router = require('./routes/index')
 const cookiesParser = require('cookie-parser')
 const { app, server } = require('./socket/index')
 
+const allowedOrigin = process.env.FRONTEND_URL || "https://chat-app-z59a.onrender.com";
+
 // const app = express()
 app.use(cors({
-    origin : process.env.FRONTEND_URL,
+    origin : allowedOrigin,
     methods: ["GET", "POST"],
     credentials : true
 }))
