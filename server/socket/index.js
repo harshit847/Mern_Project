@@ -12,7 +12,7 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server, {
     cors: {
-        origin: process.env.FRONTEND_URL, // Ensure this is set in your .env
+        origin: process.env.FRONTEND_URL || "https://chat-app-z59a.onrender.com", // Ensure this is set in your .env
         methods: ["GET", "POST"],
         credentials: true 
     },
