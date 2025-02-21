@@ -33,15 +33,21 @@ io.on('connection', async (socket) => {
     console.log("connect User ", socket.id)
 
     const token = socket.handshake.auth.token || socket.handshake.query.token;
+    console.log("Received Token:", token); // Debugging
 
     if (!token) {
         console.log("🚨 No token provided! Disconnecting...");
         return socket.disconnect();
     }
     
-    //current user details 
+    //current user details
+    let user; 
     try {
-        const user = await getUserDetailsFromToken(token);
+         user = await getUserDetailsFromToken(token);
+        } catch (error) {
+            console.error("🚨 Token validation failed:", error.message);
+            return socket.disconnect();
+        }
     
         if (!user || !user._id) {
             console.error("🚨 Invalid token. Disconnecting user:", socket.id);
@@ -51,17 +57,6 @@ io.on('connection', async (socket) => {
     
         console.log("User details from token:", user);
         socket.user = user;  // Store user details in the socket object
-    } catch (error) {
-        console.error("🚨 Token validation failed:", error.message);
-        socket.disconnect();
-        return;
-    }
-    
-
-    if (!user || !user._id) {
-        console.error("User details could not be retrieved. Possible invalid token.");
-        return;
-    }
 
     console.log("Token received:", token);
     console.log("User details from token:", user);
