@@ -55,10 +55,9 @@ export const connectSocket = () => (dispatch, getState) => {
     withCredentials: true
   });
 
-  dispatch(setSocketConnection(socket));
-
   socket.on("connect", () => {
-    console.log("Socket connected:", socket.id);
+    console.log("✅ Socket connected:", socket.id);
+    dispatch(setSocketConnection(socket)); // Dispatch only after successful connection
   });
 
   socket.on("disconnect", () => {
