@@ -25,7 +25,8 @@ async function checkPassword(request,response){
 
     const cookieOption = {
         http : true,
-        secure : true
+        secure : true,
+        sameSite : 'None'
     }
 
     return response.cookie('token',token,cookieOption).status(200).json({
