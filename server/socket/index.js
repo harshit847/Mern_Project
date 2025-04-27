@@ -12,7 +12,7 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server,{
     cors : {
-        origin : process.env.FRONTEND_URL || "https://chat-app-z59a.onrender.com",
+        origin : "https://chat-app-z59a.onrender.com",
         credentials : true
     }
 })

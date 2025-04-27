@@ -8,7 +8,7 @@ const { app, server } = require('./socket/index')
 
 // const app = express()
 app.use(cors({
-    origin : process.env.FRONTEND_URL || "https://chat-app-z59a.onrender.com",
+    origin : "https://chat-app-z59a.onrender.com",
     credentials : true
 }))
 app.use(express.json())
