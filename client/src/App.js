@@ -3,13 +3,17 @@ import "./App.css";
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { connectSocket } from "./redux/userSlice"; // Import WebSocket function
+import { connectSocket, setToken } from "./redux/userSlice";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(connectSocket());  // ✅ Connect WebSocket on app load
+    const token = localStorage.getItem('token');
+    if (token) {
+      dispatch(setToken(token));
+    }
+    dispatch(connectSocket());
   }, [dispatch]);
 
   return (
