@@ -22,7 +22,7 @@ const CheckPasswordPage = () => {
     if(!location?.state?.name){
       navigate('/email')
     }
-  },[])
+  },[location, navigate])
 
   const handleOnChange = (e)=>{
     const { name, value} = e.target
