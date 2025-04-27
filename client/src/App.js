@@ -12,7 +12,7 @@ function App() {
     const token = localStorage.getItem('token');
     if (token) {
       dispatch(setToken(token));
-      console.log(token); // Check if token is retrieved
+      console.log(token); 
     }
     dispatch(connectSocket());
   }, [dispatch]);
